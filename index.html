@@ -60,25 +60,21 @@ fillOpacity:0.4
 
 });
 
-  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRAwLjFi-rxOhIsqPtXG2smvKDhHl7pSskDkEHvn53XSgHhUmr2x4i_SGRAhxDmPUbnN2v5vwgblvQx/pub?output=csv')
-.then(response => response.text())
-.then(csv => {
+fetch('https://script.google.com/macros/s/AKfycbxT541suXiFwiGT2gkNTNe4E3MkigLeQJVzARb51wzuiTo9mwJ8_OCCJ6f7JjOaMKi7/exec')
+.then(response => response.json())
+.then(data => {
 
-var linhas = csv.split('\n');
+data.forEach(function(item){
 
-for(var i = 1; i < linhas.length; i++){
-
-var col = linhas[i].split(',');
-
-var lat = parseFloat(col[15]);
-var lon = parseFloat(col[14]);
-var ovos = parseFloat(col[1]);
+var lat = parseFloat(item.latitude);
+var lon = parseFloat(item.longitude);
+var ovos = parseFloat(item.ovos);
 
 if(!isNaN(lat) && !isNaN(lon)){
 
 L.circleMarker([lat,lon],{
 
-radius: ovos / 5,
+radius: Math.sqrt(ovos) / 2,
 fillColor:'green',
 color:'black',
 weight:1,
@@ -87,12 +83,15 @@ fillOpacity:0.7
 })
 .addTo(map)
 .bindPopup(
-'<b>Ovos:</b> ' + ovos
+
+'<b>Armadilha:</b> ' + item.armadilha +
+'<br><b>Ovos:</b> ' + ovos
+
 );
 
 }
 
-}
+});
 
 });
 
