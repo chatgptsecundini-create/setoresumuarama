@@ -72,13 +72,21 @@ var ovos = parseFloat(item.ovos);
 
 if(!isNaN(lat) && !isNaN(lon)){
 
+var intensidade = Math.min(ovos / 1000, 1);
+
+var vermelho = Math.floor(255 * intensidade);
+
+var verde = Math.floor(255 * (1 - intensidade));
+
+var cor = `rgb(${vermelho},${verde},0)`;
+  
 L.circleMarker([lat,lon],{
 
-radius: Math.sqrt(ovos) / 2,
-fillColor:'green',
+radius: Math.sqrt(ovos) / 3,
+fillColor:cor,
 color:'black',
 weight:1,
-fillOpacity:0.7
+fillOpacity:0.8
 
 })
 .addTo(map)
