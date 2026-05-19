@@ -70,9 +70,13 @@ var lat = parseFloat(item.latitude);
 
 var lon = parseFloat(item.longitude);
 
-var ovos = Number(item.ovos);
+var ovos = parseFloat(item.ovos);
 
-if(!isNaN(lat) && !isNaN(lon)){
+if(
+!isNaN(lat) &&
+!isNaN(lon) &&
+!isNaN(ovos)
+){
 
 var intensidade = Math.min(ovos / 1000, 1);
 
@@ -84,15 +88,15 @@ var cor = `rgb(${vermelho},${verde},0)`;
 
 L.circleMarker([lat,lon],{
 
-radius: Math.sqrt(ovos) / 3,
+radius: Math.max(Math.sqrt(ovos)/3, 4),
 
 fillColor: cor,
 
-color:'black',
+fillOpacity: 0.8,
 
-weight:1,
+color: 'black',
 
-fillOpacity:0.8
+weight: 1
 
 })
 .addTo(map)
@@ -108,7 +112,7 @@ fillOpacity:0.8
 });
 
 });
-
+  
 </script>
 
 </body>
