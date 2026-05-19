@@ -60,6 +60,42 @@ fillOpacity:0.4
 
 });
 
+  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRAwLjFi-rxOhIsqPtXG2smvKDhHl7pSskDkEHvn53XSgHhUmr2x4i_SGRAhxDmPUbnN2v5vwgblvQx/pub?output=csv')
+.then(response => response.text())
+.then(csv => {
+
+var linhas = csv.split('\n');
+
+for(var i = 1; i < linhas.length; i++){
+
+var col = linhas[i].split(',');
+
+var lat = parseFloat(col[15]);
+var lon = parseFloat(col[14]);
+var ovos = parseFloat(col[1]);
+
+if(!isNaN(lat) && !isNaN(lon)){
+
+L.circleMarker([lat,lon],{
+
+radius: ovos / 5,
+fillColor:'green',
+color:'black',
+weight:1,
+fillOpacity:0.7
+
+})
+.addTo(map)
+.bindPopup(
+'<b>Ovos:</b> ' + ovos
+);
+
+}
+
+}
+
+});
+
 </script>
 
 </body>
