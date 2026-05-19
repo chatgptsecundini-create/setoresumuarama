@@ -67,8 +67,10 @@ fetch('https://script.google.com/macros/s/AKfycbxT541suXiFwiGT2gkNTNe4E3MkigLeQJ
 data.forEach(function(item){
 
 var lat = parseFloat(item.latitude);
+
 var lon = parseFloat(item.longitude);
-var ovos = parseFloat(item.ovos);
+
+var ovos = Number(item.ovos);
 
 if(!isNaN(lat) && !isNaN(lon)){
 
@@ -79,13 +81,17 @@ var vermelho = Math.floor(255 * intensidade);
 var verde = Math.floor(255 * (1 - intensidade));
 
 var cor = `rgb(${vermelho},${verde},0)`;
-  
+
 L.circleMarker([lat,lon],{
 
 radius: Math.sqrt(ovos) / 3,
-fillColor:cor,
+
+fillColor: cor,
+
 color:'black',
+
 weight:1,
+
 fillOpacity:0.8
 
 })
