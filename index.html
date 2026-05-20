@@ -14,6 +14,34 @@ href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <style>
 
+#painelFiltros{
+
+position:absolute;
+
+top:10px;
+
+left:50px;
+
+z-index:1000;
+
+background:white;
+
+padding:10px;
+
+border-radius:8px;
+
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+
+}
+
+#painelFiltros select{
+
+margin:5px;
+
+padding:5px;
+
+}
+
 html, body, #map{
 height:100%;
 margin:0;
@@ -25,6 +53,18 @@ padding:0;
 </head>
 
 <body>
+
+<div id="painelFiltros">
+
+<select id="filtroSemana">
+<option value="todos">Todas Semanas</option>
+</select>
+
+<select id="filtroArmadilha">
+<option value="todos">Todas Armadilhas</option>
+</select>
+
+</div>
 
 <div id="map"></div>
 
@@ -60,56 +100,237 @@ fillOpacity:0.4
 
 });
 
+var camadaPontos;
+
 fetch('https://script.google.com/macros/s/AKfycbxT541suXiFwiGT2gkNTNe4E3MkigLeQJVzARb51wzuiTo9mwJ8_OCCJ6f7JjOaMKi7/exec')
+
 .then(response => response.json())
+
 .then(data => {
+
+window.dadosOriginais = data;
+
+popularFiltros(data);
+
+desenharPontos(data);
+
+});
+
+/*
+========================================
+POPULAR FILTROS
+========================================
+*/
+
+function popularFiltros(data){
+
+var semanas = new Set();
+
+var armadilhas = new Set();
 
 data.forEach(function(item){
 
-var lat = parseFloat(item.latitude);
+semanas.add(item.semana);
 
-var lon = parseFloat(item.longitude);
+armadilhas.add(item.armadilha);
 
-var ovos = parseFloat(item.ovos);
+});
+
+var filtroSemana =
+document.getElementById('filtroSemana');
+
+var filtroArmadilha =
+document.getElementById('filtroArmadilha');
+
+[...semanas]
+.sort()
+.forEach(function(sem){
+
+var op =
+document.createElement('option');
+
+op.value = sem;
+
+op.text = sem;
+
+filtroSemana.appendChild(op);
+
+});
+
+[...armadilhas]
+.sort()
+.forEach(function(arm){
+
+var op =
+document.createElement('option');
+
+op.value = arm;
+
+op.text = arm;
+
+filtroArmadilha.appendChild(op);
+
+});
+
+}
+
+/*
+========================================
+DESENHAR PONTOS
+========================================
+*/
+
+function desenharPontos(data){
+
+if(camadaPontos){
+
+map.removeLayer(camadaPontos);
+
+}
+
+camadaPontos = L.layerGroup();
+
+var acumulado = {};
+
+/*
+AGRUPAMENTO
+*/
+
+data.forEach(function(item){
+
+var semanaSelecionada =
+document.getElementById('filtroSemana').value;
+
+var armadilhaSelecionada =
+document.getElementById('filtroArmadilha').value;
+
+/*
+FILTROS
+*/
 
 if(
-!isNaN(lat) &&
-!isNaN(lon) &&
-!isNaN(ovos)
+(semanaSelecionada == 'todos' ||
+item.semana == semanaSelecionada)
+&&
+(armadilhaSelecionada == 'todos' ||
+item.armadilha == armadilhaSelecionada)
 ){
 
-var intensidade = Math.min(ovos / 1000, 1);
+var chave =
+item.armadilha;
 
-var vermelho = Math.floor(255 * intensidade);
+if(!acumulado[chave]){
 
-var verde = Math.floor(255 * (1 - intensidade));
+acumulado[chave] = {
 
-var cor = `rgb(${vermelho},${verde},0)`;
+ovos:0,
 
-L.circleMarker([lat,lon],{
+latitude:item.latitude,
 
-radius: Math.max(Math.sqrt(ovos)/3, 4),
+longitude:item.longitude,
 
-fillColor: cor,
+semana:item.semana
 
-fillOpacity: 0.8,
+};
 
-color: 'black',
+}
 
-weight: 1
-
-})
-.addTo(map)
-.bindPopup(
-
-'<b>Armadilha:</b> ' + item.armadilha +
-'<br><b>Ovos:</b> ' + ovos
-
-);
+acumulado[chave].ovos +=
+parseFloat(item.ovos);
 
 }
 
 });
+
+/*
+DESENHO
+*/
+
+Object.keys(acumulado)
+.forEach(function(chave){
+
+var item =
+acumulado[chave];
+
+var ovos =
+item.ovos;
+
+var intensidade =
+Math.min(ovos / 1000, 1);
+
+var vermelho =
+Math.floor(255 * intensidade);
+
+var verde =
+Math.floor(255 * (1 - intensidade));
+
+var cor =
+`rgb(${vermelho},${verde},0)`;
+
+L.circleMarker(
+[item.latitude,item.longitude],
+
+{
+
+radius:
+Math.max(
+Math.sqrt(ovos)/3,
+4
+),
+
+fillColor: cor,
+
+fillOpacity:0.8,
+
+color:'black',
+
+weight:1
+
+}
+
+)
+
+.bindPopup(
+
+'<b>Armadilha:</b> ' +
+chave +
+
+'<br><b>Ovos:</b> ' +
+ovos
+
+)
+
+.addTo(camadaPontos);
+
+});
+
+camadaPontos.addTo(map);
+
+}
+
+/*
+========================================
+EVENTOS FILTROS
+========================================
+*/
+
+document
+.getElementById('filtroSemana')
+.addEventListener('change',function(){
+
+desenharPontos(
+window.dadosOriginais
+);
+
+});
+
+document
+.getElementById('filtroArmadilha')
+.addEventListener('change',function(){
+
+desenharPontos(
+window.dadosOriginais
+);
 
 });
   
