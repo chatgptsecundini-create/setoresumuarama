@@ -143,7 +143,11 @@ var filtroArmadilha =
 document.getElementById('filtroArmadilha');
 
 [...semanas]
-.sort()
+
+.filter(sem => sem && sem != 'undefined')
+
+.sort((a,b) => Number(a) - Number(b))
+
 .forEach(function(sem){
 
 var op =
@@ -158,7 +162,11 @@ filtroSemana.appendChild(op);
 });
 
 [...armadilhas]
-.sort()
+
+.filter(arm => arm && arm != 'undefined')
+
+.sort((a,b) => Number(a) - Number(b))
+
 .forEach(function(arm){
 
 var op =
