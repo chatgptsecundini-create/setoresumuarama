@@ -293,20 +293,36 @@ var semanaSelecionada =
 document.getElementById('filtroSemana').value;
 
 /*
-SE ESTIVER FILTRANDO SEMANA
-E PASSAR DE 100 OVOS
-→ VERMELHO CRÍTICO
+CLASSIFICAÇÃO
+POR SEMANA
 */
 
-if(
-semanaSelecionada != 'todos'
-&&
-ovos >= 100
-){
+if(semanaSelecionada != 'todos'){
+
+if(ovos <= 50){
+
+cor = 'green';
+
+}
+else if(ovos <= 100){
+
+cor = 'orange';
+
+}
+else{
 
 cor = 'red';
 
-}else{
+}
+
+}
+
+/*
+ACUMULADO TOTAL
+→ ESCALA CONTÍNUA
+*/
+
+else{
 
 var vermelho =
 Math.floor(255 * intensidade);
@@ -318,7 +334,7 @@ cor =
 `rgb(${vermelho},${verde},0)`;
 
 }
-
+  
 L.circleMarker(
 [item.latitude,item.longitude],
 
