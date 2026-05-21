@@ -115,6 +115,34 @@ padding:0;
 }
 
 /*
+RÓTULO ARMADILHA
+*/
+
+.labelArmadilha div{
+
+background:rgba(255,255,255,0.9);
+
+border:1px solid black;
+
+border-radius:6px;
+
+padding:2px 5px;
+
+font-size:12px;
+
+font-weight:bold;
+
+text-align:center;
+
+color:black;
+
+white-space:nowrap;
+
+box-shadow:0 0 4px rgba(0,0,0,0.3);
+
+}
+
+/*
 MOBILE
 */
 
@@ -477,6 +505,30 @@ className:'popupCustom'
 )
 
 .addTo(camadaPontos);
+
+/*
+RÓTULO ARMADILHA
+*/
+
+L.marker(
+[item.latitude,item.longitude],
+
+{
+
+icon: L.divIcon({
+
+className:'labelArmadilha',
+
+html:
+'<div>' + chave + '</div>',
+
+iconSize:[40,20]
+
+})
+
+}
+
+).addTo(camadaPontos);
 
 });
 
