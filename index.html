@@ -14,6 +14,60 @@ href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <style>
 
+/*
+POPUP MOBILE
+*/
+
+.popupCustom .leaflet-popup-content-wrapper{
+
+border-radius:12px;
+
+padding:8px;
+
+}
+
+.popupCustom .leaflet-popup-content{
+
+margin:10px;
+
+font-size:16px;
+
+line-height:1.5;
+
+}
+
+.popupMobile h3{
+
+margin:0 0 8px 0;
+
+font-size:18px;
+
+color:#c62828;
+
+}
+
+/*
+TELAS PEQUENAS
+*/
+
+@media (max-width: 600px){
+
+.popupCustom .leaflet-popup-content{
+
+font-size:18px;
+
+line-height:1.7;
+
+}
+
+.popupMobile h3{
+
+font-size:20px;
+
+}
+
+}
+  
 #painelFiltros{
 
 position:absolute;
@@ -360,11 +414,23 @@ weight:1
 
 .bindPopup(
 
-'<b>Armadilha:</b> ' +
-chave +
+'<div class="popupMobile">' +
 
-'<br><b>Ovos:</b> ' +
-ovos
+'<h3>Armadilha ' + chave + '</h3>' +
+
+'<b>Ovos:</b> ' + ovos +
+
+'</div>',
+
+{
+
+maxWidth:300,
+
+minWidth:180,
+
+className:'popupCustom'
+
+}
 
 )
 
