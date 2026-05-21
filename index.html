@@ -283,14 +283,41 @@ item.ovos;
 var intensidade =
 ovos / maxOvos;
 
+/*
+COR DINÂMICA
+*/
+
+var cor;
+
+var semanaSelecionada =
+document.getElementById('filtroSemana').value;
+
+/*
+SE ESTIVER FILTRANDO SEMANA
+E PASSAR DE 100 OVOS
+→ VERMELHO CRÍTICO
+*/
+
+if(
+semanaSelecionada != 'todos'
+&&
+ovos >= 100
+){
+
+cor = 'red';
+
+}else{
+
 var vermelho =
 Math.floor(255 * intensidade);
 
 var verde =
 Math.floor(255 * (1 - intensidade));
 
-var cor =
+cor =
 `rgb(${vermelho},${verde},0)`;
+
+}
 
 L.circleMarker(
 [item.latitude,item.longitude],
