@@ -15,34 +15,44 @@ href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <style>
 
 /*
-POPUP MOBILE
+POPUP MOBILE MELHORADO
 */
 
 .popupCustom .leaflet-popup-content-wrapper{
 
-border-radius:12px;
+border-radius:18px;
 
-padding:8px;
+padding:14px;
+
+background:white;
+
+box-shadow:0 0 18px rgba(0,0,0,0.35);
 
 }
 
 .popupCustom .leaflet-popup-content{
 
-margin:10px;
+margin:14px;
 
-font-size:16px;
+font-size:20px;
 
-line-height:1.5;
+line-height:1.8;
+
+font-family:Arial,sans-serif;
+
+min-width:220px;
 
 }
 
 .popupMobile h3{
 
-margin:0 0 8px 0;
+margin:0 0 12px 0;
 
-font-size:18px;
+font-size:24px;
 
 color:#c62828;
+
+font-weight:bold;
 
 }
 
@@ -54,15 +64,17 @@ TELAS PEQUENAS
 
 .popupCustom .leaflet-popup-content{
 
-font-size:18px;
+font-size:22px;
 
-line-height:1.7;
+line-height:1.9;
+
+min-width:260px;
 
 }
 
 .popupMobile h3{
 
-font-size:20px;
+font-size:26px;
 
 }
 
@@ -80,11 +92,11 @@ z-index:1000;
 
 background:white;
 
-padding:10px;
+padding:14px;
 
-border-radius:8px;
+border-radius:14px;
 
-box-shadow:0 0 10px rgba(0,0,0,0.3);
+box-shadow:0 0 14px rgba(0,0,0,0.35);
 
 }
 
@@ -100,6 +112,36 @@ html, body, #map{
 height:100%;
 margin:0;
 padding:0;
+}
+
+/*
+MOBILE
+*/
+
+@media (max-width: 600px){
+
+#painelFiltros{
+
+left:10px;
+
+top:10px;
+
+padding:10px;
+
+}
+
+#painelFiltros select{
+
+width:220px;
+
+font-size:20px;
+
+padding:12px;
+
+margin-bottom:10px;
+
+}
+
 }
 
 </style>
