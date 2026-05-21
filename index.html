@@ -251,6 +251,23 @@ parseFloat(item.ovos);
 });
 
 /*
+VALOR MÁXIMO DA SEMANA/FILTRO
+*/
+
+var maxOvos = 0;
+
+Object.keys(acumulado)
+.forEach(function(chave){
+
+if(acumulado[chave].ovos > maxOvos){
+
+maxOvos = acumulado[chave].ovos;
+
+}
+
+});
+  
+/*
 DESENHO
 */
 
@@ -264,7 +281,7 @@ var ovos =
 item.ovos;
 
 var intensidade =
-Math.min(ovos / 1000, 1);
+ovos / maxOvos;
 
 var vermelho =
 Math.floor(255 * intensidade);
@@ -282,7 +299,7 @@ L.circleMarker(
 
 radius:
 Math.max(
-Math.sqrt(ovos)/3,
+(ovos / maxOvos) * 25,
 4
 ),
 
