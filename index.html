@@ -465,11 +465,6 @@ cor =
 
 }
   
-L.circleMarker(
-[item.latitude,item.longitude],
-
-{
-
 /*
 DETECTA MOBILE
 */
@@ -491,7 +486,7 @@ mobile ? 18 : 10;
 RAIO FINAL
 */
 
-radius:
+var raioFinal =
 
 Math.max(
 
@@ -511,7 +506,18 @@ Math.max(
 
 minimo
 
-),
+);
+
+/*
+BOLHA
+*/
+
+L.circleMarker(
+[item.latitude,item.longitude],
+
+{
+
+radius: raioFinal,
 
 fillColor: cor,
 
