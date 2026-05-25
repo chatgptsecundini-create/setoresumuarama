@@ -470,10 +470,23 @@ L.circleMarker(
 
 {
 
+/*
+RAIO DINÂMICO
+POR ZOOM
+*/
+
 radius:
+
 Math.max(
-(ovos / maxOvos) * 25,
-4
+
+((ovos / maxOvos) * 18)
+
+*
+
+(map.getZoom() / 10),
+
+5
+
 ),
 
 fillColor: cor,
@@ -565,6 +578,19 @@ window.dadosOriginais
 document
 .getElementById('filtroArmadilha')
 .addEventListener('change',function(){
+
+desenharPontos(
+window.dadosOriginais
+);
+
+});
+
+/*
+ATUALIZA BOLHAS
+AO DAR ZOOM
+*/
+
+map.on('zoomend',function(){
 
 desenharPontos(
 window.dadosOriginais
