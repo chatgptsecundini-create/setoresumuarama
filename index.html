@@ -471,7 +471,24 @@ L.circleMarker(
 {
 
 /*
-RAIO ADAPTATIVO MOBILE
+DETECTA MOBILE
+*/
+
+var mobile =
+window.innerWidth < 600;
+
+/*
+TAMANHO BASE
+*/
+
+var escalaBase =
+mobile ? 55 : 35;
+
+var minimo =
+mobile ? 18 : 10;
+
+/*
+RAIO FINAL
 */
 
 radius:
@@ -480,7 +497,7 @@ Math.max(
 
 (
 
-((ovos / maxOvos) * 35)
+((ovos / maxOvos) * escalaBase)
 
 +
 
@@ -492,7 +509,7 @@ Math.max(
 
 (map.getZoom() / 12),
 
-10
+minimo
 
 ),
 
