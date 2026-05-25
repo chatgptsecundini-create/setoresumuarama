@@ -471,21 +471,28 @@ L.circleMarker(
 {
 
 /*
-RAIO DINÂMICO
-POR ZOOM
+RAIO ADAPTATIVO MOBILE
 */
 
 radius:
 
 Math.max(
 
-((ovos / maxOvos) * 18)
+(
+
+((ovos / maxOvos) * 35)
+
++
+
+8
+
+)
 
 *
 
-(map.getZoom() / 10),
+(map.getZoom() / 12),
 
-5
+10
 
 ),
 
